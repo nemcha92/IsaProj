@@ -1,0 +1,49 @@
+
+<style type="text/css">
+  md-list-item, md-list-item .md-list-item-inner {
+    min-height: 100px;
+    height: 70px;
+    min-width: 150px;
+    width: 200;
+}
+</style>
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3>
+        <span>Friends</span>
+      </h3>
+    </div> 
+</md-toolbar>
+<md-content>
+    <div layout="row">
+		<div flex="25" flex offset="5">
+    <md-list layout="column" layout-align="center start">  
+            <md-list-item class="md-3-line">
+                <md-input-container>
+                    <label>Filter friends:</label>
+                    <input type="text" ng-model="filterForFriends"/>
+                </md-input-container>
+            </md-list-item>
+    
+
+            <md-list-item>
+           <md-list layout="row">
+             <md-list-item class="md-3-line"><b>Name</b></md-list-item>
+             <md-list-item class="md-3-line"><b>Surname</b></md-list-item>
+           </md-list>
+           </md-list-item>
+            <md-list-item layout="column" >
+            <md-list layout="row" layout-align="center start" ng-repeat="frn in nonFriends | filter:filterForFriends">
+              <md-list-item class="md-3-line" >  {{frn.name}}  </md-list-item>
+               <md-list-item class="md-3-line">  {{frn.surname}}  </md-list-item>
+               <md-button layout-align="centar start" class = "md-raised" ng-click = "addFriend(frn)">Add</md-button>
+               <br>
+          </md-list>
+          </md-list-item>
+
+      </md-list>
+		</div>
+    </div>      
+    <md-divider></md-divider>
+</md-content>

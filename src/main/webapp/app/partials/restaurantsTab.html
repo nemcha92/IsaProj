@@ -1,0 +1,89 @@
+
+<style type="text/css">
+  md-list-item, md-list-item .md-list-item-inner, table {
+    min-height: 100px;
+    height: 70px;
+    min-width: 150px;
+    width: 200;
+}
+
+#container{
+    overflow:hidden;
+    width:auto;
+    display:inline;
+}
+.abc{
+    align:center;
+    float:center;
+    margin-right:50px;
+}
+</style>
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3>
+        <span>Restaurants</span>
+      </h3>
+    </div> 
+</md-toolbar>
+<md-content>
+    <div>
+		<div flex="25" flex offset="5">
+    <md-list layout="column" layout-align="center start"> 
+
+            <md-list-item>
+            <md-button aria-label="md-button" class="md-accent md-raised" ng-click="showRestaurant(newRestaurant)">New entry
+            </md-button> 
+            </md-list-item>
+
+             <md-list-item>
+                <md-input-container>
+                    <label>Filter restaurants:</label>
+                    <input type="text" ng-model="filterForRestaurants"/>
+                </md-input-container>
+            </md-list-item>
+
+           <md-list>
+             <md-list-item class="md-3-line">
+               <div class="md-list-item-text" layout="row">
+                 <div class = "abc"><h2>Name</h2></div>
+                 <div class = "abc"><h2>Address</h2></div>
+                 <div class = "abc"><h2>Rating</h2></div>
+               </div>
+             </md-list-item>
+            <md-list-item layout="row" class="md-2-line" ng-repeat="res in restaurants | filter:filterForRestaurants">
+              <md-button ng-click="showRestaurant(res)">
+              <div class="md-list-item-text" layout="row">
+                <div class="abc" aligh="center"><p>{{res.name}}</p></div>
+                <div class="abc"><p>{{res.address}}</p></div>
+                <div layout="row">
+                    <li ng-repeat="star in [1,2,3,4,5]">
+                                    <div ng-switch="res.rating >= star">
+                                        <div ng-switch-when="true">
+                                            <img src="app/Images/star.png"/>
+                                        </div>
+                                        <div ng-switch-when="false">
+                                            <div ng-switch="res.rating > (star-1)">
+                                                <div ng-switch-when="true">
+                                                    <img src="app/Images/star-half.png" />
+                                                </div>
+                                                <div ng-switch-when="false">
+                                                    <img src="app/Images/star-grey.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                </div>
+                <md-button ng-show="role == 'ADMIN'" aria-label="md-button" class="md-accent md-raised" ng-click="deleteRestaurant(res)">Remove
+                </md-button> 
+                </md-button>
+              </div>
+              </md-button>
+            </md-list-item>
+          </md-list>
+
+		</div>
+    </div> 
+    <md-divider></md-divider>
+</md-content>

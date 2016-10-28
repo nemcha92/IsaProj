@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+	<div ng-controller="loginController" layout="column" layout-align="center center" layout-fill="layout-fill">
+  	<div layout="column" class="loginBox md-whiteframe-z1">
+    <md-toolbar>
+      <h2 class="md-toolbar-tools"><span>Login</span></h2>
+    </md-toolbar>
+    <md-content layout="column" class="md-padding">
+      <md-input-container>
+        <label>Email Address</label>
+        <input type="email" ng-model="username"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input type="password" ng-model="password"/>
+      </md-input-container>
+      <div layout="row" layout-align="center center" style="padding-top:20px;">
+        <md-button class="md-raised md-primary" ng-click="login(username, password)">Login</md-button>
+        <div flex="flex"></div>
+        <md-button ng-click="toRegisterPage()" md-no-ink="md-no-ink">Register</md-button>
+      </div>
+    </md-content>
+  </div>
+</div>
+</body>
+</html>

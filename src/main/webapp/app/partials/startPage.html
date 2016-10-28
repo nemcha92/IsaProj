@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Start page</title>
+</head>
+<body>
+
+
+<div ng-controller="startPageController"  ng-init="init()">
+
+		<div align='right'>
+			<p flex>{{loggedUser.username}}</p>
+			<md-button  class = "md-raised" ng-click = "logout(loggedUser.username)">Log out</md-button>
+		</div>
+
+
+		<md-tabs> 
+		<md-tab label="Restaurants"> 
+			<md-content class="md-padding">
+			 <div data-ng-include data-src="'app/partials/restaurantsTab.html'"></div>
+			</md-content>
+		</md-tab> 
+			
+		<md-tab label="Friends">
+			 <md-content class="md-padding">
+                <div data-ng-include data-src="'app/partials/friendsTab.html'"></div>
+			
+			</md-content> 
+		</md-tab> 
+		
+		<md-tab label="My profile">
+             <md-content class="md-padding">
+                <div data-ng-include data-src="'app/partials/userProfileTab.html'"></div>
+            
+            </md-content> 
+        </md-tab>
+		</md-tabs>
+
+</div>
+</body>
+</html>
