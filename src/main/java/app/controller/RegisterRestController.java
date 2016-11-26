@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,7 +13,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-
 import app.model.User;
 import app.model.UserRole;
 import app.repository.UserRepository;
@@ -42,13 +39,19 @@ public class RegisterRestController {
 	@Autowired
 	UserRepository userRepo;
 	
-	@RequestMapping("/{username}")
-	public ResponseEntity confirm(@PathVariable(value="username") String username){
-		
-		User user = userRepo.findByUsername(username);
-		user.setActivated(true);
-		
+	@RequestMapping(value = "/{username:.+}", method=RequestMethod.GET)
+	public ResponseEntity confirm(@PathVariable String username){
+		try {
+			System.out.println("received path variable username: " + username);
+			User user = userRepo.findByUsername(username);
+			user.setActivated(true);
+			
+			userRepo.save(user);
 		return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 		
 	@RequestMapping(method = RequestMethod.POST)
@@ -70,11 +73,13 @@ public class RegisterRestController {
 		user.setAddress("");
 		user.setFriends(null);
 		user.setRole(UserRole.USER);
+		user.setActivated(false);
 		
 		if(password.equals(matchPassword)){
 			System.out.println(password);
 			System.out.println(matchPassword);
 			sendConfirmationEmail(user);
+			userRepo.save(user);
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		
@@ -91,20 +96,22 @@ public class RegisterRestController {
 			
 			Session session = Session.getInstance(properties, new MailAuthenticator());
 			
-		    Message msg = new MimeMessage(session);
+		    MimeMessage msg = new MimeMessage(session);
 		    msg.setSubject("Confirmation mail");
 		    msg.setSentDate(new Date());
 		    msg.setFrom(new InternetAddress("webmaster@isa.ftn.uns.ac.rs", false));
 		    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getUsername(), false));
-		    
+
 		    String text =
-	                "Dear " + user.getName() + " "
+		    			"Dear " + user.getName() + " "
 	                    + user.getSurname()
 	                    + ", thank you for registering. Your confirmation link is: "
-	                    + "<a href=\"localhost:8080/user/register/"+user.getUsername()+"\">Confirmation link</a>";
+	                    + "<a href='http://localhost:8080/user/register/"
+	                    + user.getUsername()+"'>" 
+	                    + "Confirmation link</a>";
+
+		    msg.setContent(text, "text/html; charset=utf-8");
 		    
-		    
-		    msg.setContent(text, "text/html");
 		    Transport.send(msg);
 		    
 		    
