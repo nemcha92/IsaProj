@@ -54,7 +54,7 @@
             <md-list-item layout="row" class="md-2-line" ng-repeat="res in restaurants | filter:filterForRestaurants">
               <md-button ng-click="showRestaurant(res)">
               <div class="md-list-item-text" layout="row">
-                <div class="abc" aligh="center"><p>{{res.name}}</p></div>
+                <div class="abc" align="center"><p>{{res.name}}</p></div>
                 <div class="abc"><p>{{res.address}}</p></div>
                 <div layout="row">
                     <li ng-repeat="star in [1,2,3,4,5]">
@@ -75,14 +75,15 @@
                                     </div>
                                 </li>
                 </div>
-                <md-button ng-show="role == 'ADMIN'" aria-label="md-button" class="md-accent md-raised" ng-click="deleteRestaurant(res)">Remove
-                </md-button> 
+                </div>
                 </md-button>
-              </div>
-              </md-button>
+                <div>
+                    <md-button aria-label="md-button" class="md-accent md-raised" ng-really-message="Are you sure?" ng-click="deleteRestaurant(res)">Delete
+                    </md-button>
+                </div>
             </md-list-item>
           </md-list>
-
+          </md-list>
 		</div>
     </div> 
     <md-divider></md-divider>

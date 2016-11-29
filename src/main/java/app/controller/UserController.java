@@ -44,6 +44,8 @@ public class UserController {
 	@RequestMapping(value = "/friends")
 	public ResponseEntity getFriends(){
 		
+		System.out.println("/friends");
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		
 		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
@@ -58,6 +60,9 @@ public class UserController {
 		
 		List<User> users = userRepo.findAll();
 		List<User> retVal = new ArrayList<User>();
+		
+		System.out.println("/nonFriends");
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		
 		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		

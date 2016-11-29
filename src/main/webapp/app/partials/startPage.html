@@ -10,7 +10,7 @@
 <div ng-controller="startPageController"  ng-init="init()">
 
 		<div align='right'>
-			<p flex>{{loggedUser.username}}</p>
+			<p flex>{{loggedUser.name}} {{loggedUser.surname}}</p>
 			<md-button  class = "md-raised" ng-click = "logout(loggedUser.username)">Log out</md-button>
 		</div>
 

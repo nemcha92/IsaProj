@@ -120,7 +120,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		res2.setAddress("Adresa 3");
 		res2.setManagers(null);
 		res2.setMenus(null);
-		res2.setName("Restoran 2");
+		res2.setName("Restoran 3");
 		res2.setRating(3);
 		
 		restaurantRepo.save(res2);

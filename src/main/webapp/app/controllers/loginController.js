@@ -16,7 +16,7 @@ app.controller('loginController', ['$scope', '$window', 'loginFactory', '$locati
 				$scope.showAlertDialog('No match', 'Username not found', 'OK');
 			}
 			if(data == 400){	//Not acceptable from server
-				$scope.showAlertDialog('Bad request', 'Wrog username or password or not activated', 'OK');
+				$scope.showAlertDialog('Bad request', 'Wrog password or not activated', 'OK');
 			}
 		});
 
