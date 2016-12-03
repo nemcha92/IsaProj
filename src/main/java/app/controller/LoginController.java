@@ -24,10 +24,6 @@ public class LoginController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity login(@RequestBody User user){
-		
-		System.out.println(user.getUsername());
-		System.out.println(user.getPassword());
-		
 		User lUser = userRepo.findByUsername(user.getUsername());
 		
 		if(lUser == null)

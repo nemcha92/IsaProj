@@ -8,7 +8,6 @@ app.controller('loginController', ['$scope', '$window', 'loginFactory', '$locati
 
 		loginFactory.loginUser(username, password).success(function(data, status){
 			if(status=='200'){
-				$log.info('login status is 200');
 				$location.path('/startPage');
 			}
 		}).error(function(status, data, headers, config){
@@ -16,7 +15,7 @@ app.controller('loginController', ['$scope', '$window', 'loginFactory', '$locati
 				$scope.showAlertDialog('No match', 'Username not found', 'OK');
 			}
 			if(data == 400){	//Not acceptable from server
-				$scope.showAlertDialog('Bad request', 'Wrog password or not activated', 'OK');
+				$scope.showAlertDialog('Bad request', 'Wrong password or not activated', 'OK');
 			}
 		});
 
@@ -37,6 +36,13 @@ app.controller('loginController', ['$scope', '$window', 'loginFactory', '$locati
 						.ok(ok));
 	};
 
+	//MD TOAST
+	$scope.toastPosition = {
+				    bottom: false,
+				    top: true,
+				    left: false,
+				    right: true
+				};
 
 	$scope.getToastPosition = function() {
 	    return Object.keys($scope.toastPosition)

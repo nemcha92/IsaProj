@@ -12,14 +12,14 @@ import app.model.Restaurant;
 import app.repository.RestaurantRepository;
 
 @RestController
-@RequestMapping("/resources/restaurants")
+@RequestMapping("/resources/restaurant")
 @RepositoryEventHandler(Restaurant.class)
 public class RestaurantsController {
 	
 	@Autowired
 	RestaurantRepository restaurantRepository;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="/all", method = RequestMethod.GET)
 	public ResponseEntity get(){
 		return new ResponseEntity(restaurantRepository.findAll(), HttpStatus.OK);
 	}

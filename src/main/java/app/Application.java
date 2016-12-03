@@ -12,6 +12,7 @@ import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.http.HttpStatus;
 
 import app.model.Restaurant;
@@ -28,8 +29,6 @@ public class Application extends SpringBootServletInitializer implements Command
 	
 	@Autowired
 	UserRepository userRepo;
-	
-	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -88,11 +87,15 @@ public class Application extends SpringBootServletInitializer implements Command
 		u2.setSurname("Markovic");
 		u2.setUsername("mare@hotmail.com");
 		
-		u.getFriends().add(u1);
+		
 		
 		userRepo.save(u);
 		userRepo.save(u1);
 		userRepo.save(u2);
+		
+		u1.setPassword("");
+		u.getFriends().add(u1);
+		userRepo.save(u);
 		
 	}
 	

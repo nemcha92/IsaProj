@@ -1,6 +1,7 @@
 package app.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +38,18 @@ public class UserController {
 	public ResponseEntity logout(){
 		
 		SecurityContextHolder.getContext().setAuthentication(null);
-		
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/friends")
 	public ResponseEntity getFriends(){
 		
-		System.out.println("/friends");
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
 		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		if(lUser == null) 
-			return null;
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		
+		
 		
 		return new ResponseEntity(lUser.getFriends(), HttpStatus.OK);
 	}
@@ -60,9 +59,6 @@ public class UserController {
 		
 		List<User> users = userRepo.findAll();
 		List<User> retVal = new ArrayList<User>();
-		
-		System.out.println("/nonFriends");
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		
 		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
@@ -100,20 +96,34 @@ public class UserController {
 		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		boolean ok = true;
 		
-		System.out.println("lUser is "+ lUser.getUsername());
-		
 		for(User u : lUser.getFriends()){
 			if(userToAdd.getUsername().equals(u.getUsername())){
 				ok = false;
 			}
 		}
-		System.out.println(ok);
-		System.out.println(userToAdd);
-		System.out.println(userToAdd.getUsername());
-		
-		if(ok) 
+
+		if(ok){
+			userToAdd.setPassword("");
 			lUser.getFriends().add(userToAdd);
+		}
+			
+		userRepo.save(lUser);
 		
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value="/removeFriend", method = RequestMethod.POST)
+	public ResponseEntity removeFriend(@RequestBody User friend){
+		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		
+		Iterator<User> itu = lUser.getFriends().iterator();
+		
+		while(itu.hasNext()){
+			if(itu.next().getUsername().equals(friend.getUsername())){
+				itu.remove();
+			}
+		}
 		userRepo.save(lUser);
 		
 		return new ResponseEntity(HttpStatus.OK);

@@ -32,3 +32,6 @@ Procfile
 
 # Vagrant
 .vagrant/*
+
+*.jpg
+*.png

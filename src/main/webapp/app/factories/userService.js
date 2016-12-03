@@ -1,5 +1,6 @@
 app.service('userService', function($http){
 	var url = '/resources/users';
+	var url2 ='/users/' 
 	return{
 		create: function(restaurant){
 
@@ -34,6 +35,10 @@ app.service('userService', function($http){
 
 		getFriends: function(){
 			return $http.get(url+ '/friends');
+		},
+
+		removeFriend: function(frn){
+			return $http.post(url+ '/removeFriend', frn);
 		}
 
 	}
