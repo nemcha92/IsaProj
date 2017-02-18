@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import app.model.User;
 import app.repository.UserRepository;
+import app.security.UserDetailsServiceImpl;
 
 
 @RestController
@@ -29,7 +31,7 @@ public class UserController {
 	@RequestMapping("/getLoggedUser")
 	public User getLoggedUser(){
 		
-		User logUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User logUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		logUser.setPassword(null);
 		return logUser;
 	}
@@ -44,7 +46,7 @@ public class UserController {
 	@RequestMapping(value = "/friends")
 	public ResponseEntity getFriends(){
 		
-		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		User lUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		if(lUser == null) 
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -60,7 +62,7 @@ public class UserController {
 		List<User> users = userRepo.findAll();
 		List<User> retVal = new ArrayList<User>();
 		
-		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		User lUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		if(lUser == null)
 			return null;
@@ -93,7 +95,7 @@ public class UserController {
 	@RequestMapping(value = "/addFriend", method = RequestMethod.POST)
 	public ResponseEntity addFriend(@RequestBody User userToAdd){
 		
-		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		User lUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		boolean ok = true;
 		
 		for(User u : lUser.getFriends()){
@@ -115,7 +117,7 @@ public class UserController {
 	
 	@RequestMapping(value="/removeFriend", method = RequestMethod.POST)
 	public ResponseEntity removeFriend(@RequestBody User friend){
-		User lUser = userRepo.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		User lUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		Iterator<User> itu = lUser.getFriends().iterator();
 		
