@@ -52,7 +52,7 @@
                </div>
              </md-list-item>
             <md-list-item layout="row" class="md-2-line" ng-repeat="res in restaurants | filter:filterForRestaurants">
-              <md-button ng-click="showRestaurant(res)">
+              <md-button ng-click="showRestaurant($event, res)">
               <div class="md-list-item-text" layout="row">
                 <div class="abc" align="center"><p>{{res.name}}</p></div>
                 <div class="abc"><p>{{res.address}}</p></div>

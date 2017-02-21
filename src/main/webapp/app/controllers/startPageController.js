@@ -111,12 +111,32 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 	};
 
 	//TODO implement
-	$scope.showRestaurant = function(res){
-		if(res === undefined){
+	$scope.showRestaurant = function(event, res){
+		if(res == undefined){
+			$scope.selectedRestaurant = null;
 			$log.info('new restaurant')
 		} else {
 			$log.info(res);
+			$scope.selectedRestaurant = res;
+			$scope.showRestaurantForReal(event, res);
 		}
+	};
+
+	$scope.showRestaurantForReal = function(event){
+
+		$mdDialog.show({
+			controller : 'restaurantController',
+			controllerAs : 'restaurantController',
+			templateUrl : 'app/partials/restaurantDialog.html',
+			parent : angular.element(document.body),
+			targetEvent : event,
+			locals : {
+				res : $scope.selectedRestaurant
+			}
+		}).then(function(answer){
+			$log.info(answer);
+		})
+
 	};
 
 	//TODO implement

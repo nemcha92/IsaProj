@@ -1,7 +1,8 @@
 package app.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Menu implements Serializable{
@@ -20,9 +21,10 @@ public class Menu implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idMenu;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "MenuDishes", joinColumns = @JoinColumn(name = "idMenu"), inverseJoinColumns = @JoinColumn(name = "idDish"))
-	private Set<Meal> meals;
+	private String name;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Meal> meals = new ArrayList<Meal>();
 
 	public int getIdMenu() {
 		return idMenu;
@@ -32,12 +34,22 @@ public class Menu implements Serializable{
 		this.idMenu = idMenu;
 	}
 
-	public Set<Meal> getMeals() {
+	public List<Meal> getMeals() {
 		return meals;
 	}
 
-	public void setMeals(Set<Meal> meals) {
+	public void setMeals(List<Meal> meals) {
 		this.meals = meals;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 
 }

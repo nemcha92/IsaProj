@@ -38,10 +38,10 @@ public class User implements Serializable{
 	
 	private boolean isActivated = false;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="friends", referencedColumnName="idUser")
 	private List<User> friends = new ArrayList<User>();
-
+	
 	public int getIdUser() {
 		return idUser;
 	}

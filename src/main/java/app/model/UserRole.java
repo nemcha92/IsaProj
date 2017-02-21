@@ -2,6 +2,7 @@ package app.model;
 
 public enum UserRole {
 	USER,
-	MANAGER,
+	SYSTEM_MNG,
+	RESTAURANT_MNG,
 	ADMIN
 }

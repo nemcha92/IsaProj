@@ -25,5 +25,8 @@ public class RestaurantsController {
 	}
 
 	
-
+	/*@RequestMapping()
+	public ResponseEntity makeReservation(){
+		
+	};*/
 }

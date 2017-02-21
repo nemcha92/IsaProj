@@ -1,6 +1,8 @@
 package app;
 
 
+import java.util.ArrayList;
+
 import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,12 +14,16 @@ import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.http.HttpStatus;
 
+import app.model.Meal;
+import app.model.Menu;
+import app.model.Reservation;
 import app.model.Restaurant;
 import app.model.User;
 import app.model.UserRole;
+import app.repository.MealRepository;
+import app.repository.MenuRepository;
 import app.repository.RestaurantRepository;
 import app.repository.UserRepository;
 
@@ -29,6 +35,12 @@ public class Application extends SpringBootServletInitializer implements Command
 	
 	@Autowired
 	UserRepository userRepo;
+	
+	@Autowired
+	MenuRepository menuRepo;
+	
+	@Autowired
+	MealRepository mealRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -52,8 +64,8 @@ public class Application extends SpringBootServletInitializer implements Command
 	public void run(String... strings) throws Exception {
 		
 		addUsers();
+		addMealsToMenus();
 		addRestaurants();
-
 	}
 	
 	private void addUsers(){
@@ -107,6 +119,13 @@ public class Application extends SpringBootServletInitializer implements Command
 		res.setMenus(null);
 		res.setName("Restoran 1");
 		res.setRating(1);
+		res.setMenus(new ArrayList<Menu>());
+		res.setManagers(new ArrayList<User>());
+		res.setReservations(new ArrayList<Reservation>());
+		
+		res.getMenus().add(menuRepo.findByName("Hrana"));
+		res.getMenus().add(menuRepo.findByName("Pice"));
+		res.getManagers().add(userRepo.findByUsername("n@hot.com"));
 		
 		restaurantRepo.save(res);
 		
@@ -116,6 +135,9 @@ public class Application extends SpringBootServletInitializer implements Command
 		res1.setMenus(null);
 		res1.setName("Restoran 2");
 		res1.setRating(4);
+		res1.setMenus(new ArrayList<Menu>());
+		res1.setManagers(new ArrayList<User>());
+		res1.setReservations(new ArrayList<Reservation>());
 		
 		restaurantRepo.save(res1);
 		
@@ -125,9 +147,57 @@ public class Application extends SpringBootServletInitializer implements Command
 		res2.setMenus(null);
 		res2.setName("Restoran 3");
 		res2.setRating(3);
+		res2.setMenus(new ArrayList<Menu>());
+		res2.setManagers(new ArrayList<User>());
+		res2.setReservations(new ArrayList<Reservation>());
 		
 		restaurantRepo.save(res2);
 	}
+	
+	
+	private void addMealsToMenus(){
+		
+		Meal m1 = new Meal("Pljeskavica", "Obicna pleskavica 200g", "220");
+		Meal m2 = new Meal("Hamburger", "200g", "220");
+		Meal m3 = new Meal("10 cevapa", "10 x 20g", "300");
+		Meal m4 = new Meal("Pomfrit", "100g", "150");
+		
+		mealRepo.save(m1);
+		mealRepo.save(m2);
+		mealRepo.save(m3);
+		mealRepo.save(m4);
+		
+		Menu menu1 = new Menu();
+		menu1.setName("Hrana");
+		menu1.getMeals().add(m1);
+		menu1.getMeals().add(m2);
+		menu1.getMeals().add(m3);
+		menu1.getMeals().add(m4);
+		
+		menuRepo.save(menu1);
+		
+		Meal m5 = new Meal("Pivo", "Zajecarsko 0.5l toceno", "200");
+		Meal m6 = new Meal("Pivo", "tuborg 0.5l", "190");
+		Meal m7 = new Meal("Koka kola", "0.25l", "150");
+		Meal m8 = new Meal("Espreso", "Produzeni sa mlekom", "130");
+		
+		mealRepo.save(m5);
+		mealRepo.save(m6);
+		mealRepo.save(m7);
+		mealRepo.save(m8);
+		
+		Menu menu2 = new Menu();
+		menu2.setName("Pice");
+		menu2.getMeals().add(m5);
+		menu2.getMeals().add(m6);
+		menu2.getMeals().add(m7);
+		menu2.getMeals().add(m8);
+		
+		menuRepo.save(menu2);
+		
+	}
+	
+	
 	
 	@Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {

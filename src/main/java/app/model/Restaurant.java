@@ -2,18 +2,19 @@ package app.model;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Restaurant implements Serializable{
@@ -29,12 +30,15 @@ public class Restaurant implements Serializable{
 	
 	private HashMap<String, Float> ratings = new HashMap<String, Float>();
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "RestaurantMenus", joinColumns = @JoinColumn(name = "idRestaurant"), inverseJoinColumns = @JoinColumn(name = "idMenu"))
-	private Set<Menu> menus;
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Menu> menus;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="managerOf", cascade = CascadeType.ALL)
-	private Set<User> managers;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="managerOf")
+	private List<User> managers;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Reservation> reservations;
 
 	public int getIdRestaurant() {
 		return idRestaurant;
@@ -68,20 +72,44 @@ public class Restaurant implements Serializable{
 		this.rating = rating;
 	}
 
-	public Set<Menu> getMenus() {
+	public List<Menu> getMenus() {
 		return menus;
 	}
 
-	public void setMenus(Set<Menu> menus) {
+	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
 
-	public Set<User> getManagers() {
+	public List<User> getManagers() {
 		return managers;
 	}
 
-	public void setManagers(Set<User> managers) {
+	public void setManagers(List<User> managers) {
 		this.managers = managers;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public HashMap<String, Float> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(HashMap<String, Float> ratings) {
+		this.ratings = ratings;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 	
 	

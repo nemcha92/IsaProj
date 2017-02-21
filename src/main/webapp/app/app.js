@@ -11,8 +11,7 @@ var app = angular.module('app', ['ngRoute', 'ngMaterial']);
 				{
 					templateUrl: 'app/partials/startPage.html',
 					controller: 'startPageController'
-				}
-				)
+				})
 	});
 
 app.config(function($logProvider){
