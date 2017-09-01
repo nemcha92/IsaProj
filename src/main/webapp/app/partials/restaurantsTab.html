@@ -78,7 +78,7 @@
                 </div>
                 </md-button>
                 <div>
-                    <md-button aria-label="md-button" class="md-accent md-raised" ng-really-message="Are you sure?" ng-click="deleteRestaurant(res)">Delete
+                    <md-button aria-label="md-button" class="md-accent md-raised" ng-really-message="Are you sure?" ng-show="$scope.role=='ADMIN'" ng-click="deleteRestaurant(res)">Delete
                     </md-button>
                 </div>
             </md-list-item>

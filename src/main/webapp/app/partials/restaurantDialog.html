@@ -12,29 +12,6 @@
     	</md-input-container>
 		<md-input-container md-no-float = "true">
     	   <label>Phone:</label><input required type = "text" ng-model = "res.phone" ng-readonly="true"/>
-    	</md-input-container>
-    	   <label>Menues:</h3>
-		<md-list layout="column" layout-align="center start">  
-            <md-list-item class="md-3-line">
-                <md-input-container>
-                    <label>Filter menus:</label>
-                    <input type="text" ng-model="filterForMenus"/>
-                </md-input-container>
-            </md-list-item>
-
-			</md-list>
-
-			<md-list>
-				<md-list-item layout="row" class="md-2-line" ng-repeat="mnu in res.menus | filter:filterForMenus">
-              <md-button ng-click="showMenu(mnu)">
-              <div class="md-list-item-text" layout="row">
-                <div class="abc" align="center"><p>blabla</p></div>
-              </div>
-              </md-button>
-            </md-list-item>
-
-			</md-list>
-			
  	</md-content>	
     </form>
     </div>

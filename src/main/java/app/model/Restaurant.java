@@ -35,10 +35,6 @@ public class Restaurant implements Serializable{
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="managerOf")
 	private List<User> managers;
-	
-	@OneToMany(fetch = FetchType.EAGER)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private List<Reservation> reservations;
 
 	public int getIdRestaurant() {
 		return idRestaurant;
@@ -104,14 +100,5 @@ public class Restaurant implements Serializable{
 		this.ratings = ratings;
 	}
 
-	public List<Reservation> getReservations() {
-		return reservations;
-	}
-
-	public void setReservations(List<Reservation> reservations) {
-		this.reservations = reservations;
-	}
-	
-	
 	
 }

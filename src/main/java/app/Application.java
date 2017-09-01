@@ -75,9 +75,9 @@ public class Application extends SpringBootServletInitializer implements Command
 		u.setManagerOf(null);
 		u.setName("Nemanja");
 		u.setPassword("n");
-		u.setRole(UserRole.ADMIN);
+		u.setRole(UserRole.USER);
 		u.setSurname("Milutinovic");
-		u.setUsername("n@hot.com");
+		u.setUsername("n@mail.com");
 		
 		User u1 = new User();
 		u1.setActivated(true);
@@ -118,14 +118,14 @@ public class Application extends SpringBootServletInitializer implements Command
 		res.setManagers(null);
 		res.setMenus(null);
 		res.setName("Restoran 1");
+		res.setPhone("021/777-888");
 		res.setRating(1);
 		res.setMenus(new ArrayList<Menu>());
 		res.setManagers(new ArrayList<User>());
-		res.setReservations(new ArrayList<Reservation>());
 		
 		res.getMenus().add(menuRepo.findByName("Hrana"));
 		res.getMenus().add(menuRepo.findByName("Pice"));
-		res.getManagers().add(userRepo.findByUsername("n@hot.com"));
+		res.getManagers().add(userRepo.findByUsername("n@mail.com"));
 		
 		restaurantRepo.save(res);
 		
@@ -134,10 +134,10 @@ public class Application extends SpringBootServletInitializer implements Command
 		res1.setManagers(null);
 		res1.setMenus(null);
 		res1.setName("Restoran 2");
+		res1.setPhone("019/444-555");
 		res1.setRating(4);
 		res1.setMenus(new ArrayList<Menu>());
 		res1.setManagers(new ArrayList<User>());
-		res1.setReservations(new ArrayList<Reservation>());
 		
 		restaurantRepo.save(res1);
 		
@@ -146,10 +146,10 @@ public class Application extends SpringBootServletInitializer implements Command
 		res2.setManagers(null);
 		res2.setMenus(null);
 		res2.setName("Restoran 3");
+		res1.setPhone("019/111-5515");
 		res2.setRating(3);
 		res2.setMenus(new ArrayList<Menu>());
 		res2.setManagers(new ArrayList<User>());
-		res2.setReservations(new ArrayList<Reservation>());
 		
 		restaurantRepo.save(res2);
 	}
@@ -168,7 +168,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		mealRepo.save(m4);
 		
 		Menu menu1 = new Menu();
-		menu1.setName("Hrana");
+		menu1.setName("Hrana1");
 		menu1.getMeals().add(m1);
 		menu1.getMeals().add(m2);
 		menu1.getMeals().add(m3);
@@ -187,7 +187,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		mealRepo.save(m8);
 		
 		Menu menu2 = new Menu();
-		menu2.setName("Pice");
+		menu2.setName("Pice1");
 		menu2.getMeals().add(m5);
 		menu2.getMeals().add(m6);
 		menu2.getMeals().add(m7);
@@ -196,6 +196,8 @@ public class Application extends SpringBootServletInitializer implements Command
 		menuRepo.save(menu2);
 		
 	}
+	
+	
 	
 	
 	

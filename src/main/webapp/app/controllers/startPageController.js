@@ -13,6 +13,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		userService.getLoggedUser().success(function(data){
 			$scope.loggedUser = data;
 			$scope.role = $scope.loggedUser.role;
+			$log.info($scope.role);
 		});
 
 		getFriends();
@@ -57,7 +58,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 	//DELETE RESTAURANT
 	$scope.deleteRestaurant = function(restaurant){
 		var confirm = $scope.showConfirm('Are you sure you want to delete '+restaurant.name+ '?', 'NOTE: This cannot be undone', '', 'Yes', 'No');
-		$log.info(confirm)
+		$log.info(confirm);
 
 		$mdDialog.show(confirm).then(function() {
 				restaurantsService.delete(restaurant).success(function(data){
