@@ -2,6 +2,7 @@ package app;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,17 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
+import app.model.Invitation;
 import app.model.Meal;
 import app.model.Menu;
 import app.model.Reservation;
 import app.model.Restaurant;
 import app.model.User;
 import app.model.UserRole;
+import app.repository.InvitationRepository;
 import app.repository.MealRepository;
 import app.repository.MenuRepository;
+import app.repository.ReservationRepository;
 import app.repository.RestaurantRepository;
 import app.repository.UserRepository;
 
@@ -41,6 +45,12 @@ public class Application extends SpringBootServletInitializer implements Command
 	
 	@Autowired
 	MealRepository mealRepo;
+	
+	@Autowired
+	ReservationRepository reservationRepo;
+	
+	@Autowired
+	InvitationRepository invRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -66,6 +76,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		addUsers();
 		addMealsToMenus();
 		addRestaurants();
+		addReservations();
 	}
 	
 	private void addUsers(){
@@ -197,7 +208,30 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 	}
 	
-	
+	private void addReservations(){
+		
+		Reservation reserv = new Reservation();
+		reserv.setCreator(userRepo.findByUsername("n@mail.com"));
+		reserv.setDate("12.09.17");
+		reserv.setDuration(5);
+		
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		
+		Invitation inv1 = new Invitation(userRepo.findByUsername("pera@hotmail.com"), false);
+		Invitation inv2 = new Invitation(userRepo.findByUsername("mare@hotmail.com"), true);
+		
+		invRepo.save(inv1);
+		invRepo.save(inv2);
+		
+		invitations.add(inv1);
+		invitations.add(inv2);
+		reserv.setInvitations(invitations);
+		
+		reserv.setRestaurant(restaurantRepo.findOne(1));
+		reserv.setTime("18:30");
+		reservationRepo.save(reserv);
+		System.out.println(reserv);
+	}
 	
 	
 	

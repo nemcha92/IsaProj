@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
@@ -30,10 +31,10 @@ public class Restaurant implements Serializable{
 	
 	private HashMap<String, Float> ratings = new HashMap<String, Float>();
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Menu> menus;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="managerOf")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="managerOf")
 	private List<User> managers;
 
 	public int getIdRestaurant() {

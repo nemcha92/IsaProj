@@ -23,10 +23,4 @@ public class RestaurantsController {
 	public ResponseEntity get(){
 		return new ResponseEntity(restaurantRepository.findAll(), HttpStatus.OK);
 	}
-
-	
-	/*@RequestMapping()
-	public ResponseEntity makeReservation(){
-		
-	};*/
 }
