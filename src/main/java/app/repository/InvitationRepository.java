@@ -9,6 +9,6 @@ import app.model.Invitation;
 
 
 @Repository
-public interface InvitationRepository extends JpaRepository<Invitation, Serializable> {
+public interface InvitationRepository extends JpaRepository<Invitation, Integer> {
 
 }

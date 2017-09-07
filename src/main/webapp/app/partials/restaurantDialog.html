@@ -1,8 +1,15 @@
 
 <md-dialog>
+
+<form ng-cloak>
 <div class = "form-group" ng-init="init()">
-	<h3>Basic information</h3>
-    <form>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+		  <h2>Restaurant info</h2>
+		  <span flex></span>
+		</div>
+	  </md-toolbar>
+
     <md-content layout-padding layout="column" layout-sm="column" layout-align="center start">
     	<md-input-container md-no-float = "true">
     	   <label>Name:</label><input required type = "text" ng-model = "res.name" ng-readonly="true"/>
@@ -11,9 +18,18 @@
     	   <label>Address:</label><input required type = "text" ng-model = "res.address" ng-readonly="true"/>
     	</md-input-container>
 		<md-input-container md-no-float = "true">
-    	   <label>Phone:</label><input required type = "text" ng-model = "res.phone" ng-readonly="true"/>
- 	</md-content>	
-    </form>
-    </div>
+		   <label>Phone:</label><input required type = "text" ng-model = "res.phone" ng-readonly="true"/>
+	
+	</md-content>
+
+	<md-dialog-actions layout="row">
+	<md-button  class="md-accent md-raised" ng-click="closeDialog()" md-autofocus>
+	 Close
+	</md-button>
+  </md-dialog-actions>
+
+</div>
+</form>
+
 </md-dialog>
 

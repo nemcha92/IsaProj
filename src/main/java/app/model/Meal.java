@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Meal implements Serializable{
 	
@@ -19,6 +21,11 @@ public class Meal implements Serializable{
 	private String name;
 	private String description;
 	private String price;
+	
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "idMenu")
+	private Menu menu;
 	
 	public Meal(){
 		
@@ -54,5 +61,15 @@ public class Meal implements Serializable{
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+	
+	
 
 }

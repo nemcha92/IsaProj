@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import app.model.Meal;
 
 @Repository
-public interface MealRepository extends JpaRepository<Meal, Serializable> {
+public interface MealRepository extends JpaRepository<Meal, Integer> {
 
 }

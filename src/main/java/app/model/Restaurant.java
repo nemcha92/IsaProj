@@ -9,11 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,11 +31,13 @@ public class Restaurant implements Serializable{
 	
 	private HashMap<String, Float> ratings = new HashMap<String, Float>();
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Menu> menus;
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "idUser")
+	private User manager;
 	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="managerOf")
-	private List<User> managers;
+	@OneToMany(mappedBy="restaurant", fetch = FetchType.EAGER)
+	private List<Menu> menus;
 
 	public int getIdRestaurant() {
 		return idRestaurant;
@@ -77,14 +79,6 @@ public class Restaurant implements Serializable{
 		this.menus = menus;
 	}
 
-	public List<User> getManagers() {
-		return managers;
-	}
-
-	public void setManagers(List<User> managers) {
-		this.managers = managers;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -101,5 +95,14 @@ public class Restaurant implements Serializable{
 		this.ratings = ratings;
 	}
 
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
+	
 	
 }

@@ -2,6 +2,7 @@ package app;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.h2.server.web.WebServlet;
@@ -74,9 +75,14 @@ public class Application extends SpringBootServletInitializer implements Command
 	public void run(String... strings) throws Exception {
 		
 		addUsers();
-		addMealsToMenus();
 		addRestaurants();
-		addReservations();
+		addMealsAndMenus();
+		addMealsToMenus();
+		addMenusToRestaurants();
+		addManagersToRestaurants();
+		//addReservations();
+		
+		printTest();
 	}
 	
 	private void addUsers(){
@@ -86,7 +92,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		u.setManagerOf(null);
 		u.setName("Nemanja");
 		u.setPassword("n");
-		u.setRole(UserRole.USER);
+		u.setRole(UserRole.ADMIN);
 		u.setSurname("Milutinovic");
 		u.setUsername("n@mail.com");
 		
@@ -111,8 +117,6 @@ public class Application extends SpringBootServletInitializer implements Command
 		u2.setUsername("mare@hotmail.com");
 		
 		
-		
-		userRepo.save(u);
 		userRepo.save(u1);
 		userRepo.save(u2);
 		
@@ -126,47 +130,36 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 		Restaurant res = new Restaurant();
 		res.setAddress("Adresa 1");
-		res.setManagers(null);
-		res.setMenus(null);
-		res.setName("Restoran 1");
+		res.setName("Restoran1");
 		res.setPhone("021/777-888");
-		res.setRating(1);
+		res.setRating(5);
 		res.setMenus(new ArrayList<Menu>());
-		res.setManagers(new ArrayList<User>());
-		
-		res.getMenus().add(menuRepo.findByName("Hrana"));
-		res.getMenus().add(menuRepo.findByName("Pice"));
-		res.getManagers().add(userRepo.findByUsername("n@mail.com"));
 		
 		restaurantRepo.save(res);
-		
+
 		Restaurant res1 = new Restaurant();
 		res1.setAddress("Adresa 2");
-		res1.setManagers(null);
-		res1.setMenus(null);
-		res1.setName("Restoran 2");
+		res1.setName("Restoran2");
 		res1.setPhone("019/444-555");
 		res1.setRating(4);
 		res1.setMenus(new ArrayList<Menu>());
-		res1.setManagers(new ArrayList<User>());
+		res1.setManager(null);
 		
 		restaurantRepo.save(res1);
 		
 		Restaurant res2 = new Restaurant();
 		res2.setAddress("Adresa 3");
-		res2.setManagers(null);
-		res2.setMenus(null);
-		res2.setName("Restoran 3");
-		res1.setPhone("019/111-5515");
+		res2.setName("Restoran3");
+		res2.setPhone("019/111-5515");
 		res2.setRating(3);
 		res2.setMenus(new ArrayList<Menu>());
-		res2.setManagers(new ArrayList<User>());
+		res2.setManager(null);
 		
 		restaurantRepo.save(res2);
 	}
 	
 	
-	private void addMealsToMenus(){
+	private void addMealsAndMenus(){
 		
 		Meal m1 = new Meal("Pljeskavica", "Obicna pleskavica 200g", "220");
 		Meal m2 = new Meal("Hamburger", "200g", "220");
@@ -180,10 +173,6 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 		Menu menu1 = new Menu();
 		menu1.setName("Hrana1");
-		menu1.getMeals().add(m1);
-		menu1.getMeals().add(m2);
-		menu1.getMeals().add(m3);
-		menu1.getMeals().add(m4);
 		
 		menuRepo.save(menu1);
 		
@@ -199,13 +188,76 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 		Menu menu2 = new Menu();
 		menu2.setName("Pice1");
-		menu2.getMeals().add(m5);
-		menu2.getMeals().add(m6);
-		menu2.getMeals().add(m7);
-		menu2.getMeals().add(m8);
-		
+
 		menuRepo.save(menu2);
 		
+	}
+	
+	private void addMealsToMenus(){
+		
+		Menu menu1 = menuRepo.findByName("Hrana1");
+		
+		List<Meal> meals = new ArrayList<Meal>();
+		
+		for(int i = 0; i < 4; ++i){
+			Meal m1 = mealRepo.findOne(i+1);
+			m1.setMenu(menu1);
+			meals.add(m1);
+			mealRepo.save(m1);
+		}
+		
+		menu1.setMeals(meals);
+		menuRepo.save(menu1);
+		
+		Menu menu2 = menuRepo.findByName("Pice1");
+		meals.clear();
+		
+		for(int i = 4; i < 7; ++i){
+			Meal m1 = mealRepo.findOne(i+1);
+			m1.setMenu(menu2);
+			meals.add(m1);
+			mealRepo.save(m1);
+		}
+		
+		menu2.setMeals(meals);
+		menuRepo.save(menu2);
+		
+		
+	}
+	
+	private void addMenusToRestaurants(){
+		
+		Restaurant res = restaurantRepo.findByName("Restoran1");
+		Menu menu1 = menuRepo.findByName("Hrana1");
+		Menu menu2 = menuRepo.findByName("Pice1");
+		
+		menu1.setRestaurant(res);
+		menu2.setRestaurant(res);
+		
+		List<Menu> menus = new ArrayList<Menu>();
+		menus.add(menuRepo.findByName("Hrana1"));
+		menus.add(menuRepo.findByName("Pice1"));
+		res.setMenus(menus);
+		
+		menuRepo.save(menu1);
+		menuRepo.save(menu2);
+		restaurantRepo.save(res);
+		
+	}
+	
+	private void addManagersToRestaurants(){
+		
+		User manager = userRepo.findByUsername("n@mail.com");
+		Restaurant res = restaurantRepo.findByName("Restoran1");
+		
+		List<Restaurant> managerOf = new ArrayList<Restaurant>();
+		managerOf.add(res);
+		manager.setManagerOf(managerOf);
+		
+		res.setManager(manager);
+		
+		userRepo.save(manager);
+		restaurantRepo.save(res);
 	}
 	
 	private void addReservations(){
@@ -233,6 +285,27 @@ public class Application extends SpringBootServletInitializer implements Command
 		System.out.println(reserv);
 	}
 	
+	private void printTest(){
+		printRestaurant("Restoran1");
+	}
+	
+	
+	private void printRestaurant(String restaurant){
+		
+		System.out.println("** PRINT RESTAURANT**");
+		Restaurant r = restaurantRepo.findByName(restaurant);
+		System.out.println("->"+r.getName());
+		System.out.println("\n*Menus:*");
+		for(Menu m : r.getMenus()){
+			System.out.println("-->"+m.getName());
+			for(Meal mm : m.getMeals()){
+				System.out.println("--->"+mm.getName());
+			}
+		}
+		
+		System.out.println("*Managers:*");
+		System.out.println(r.getManager().getName()+" "+r.getManager().getSurname());
+	}
 	
 	
 	@Bean

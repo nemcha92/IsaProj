@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -34,7 +35,9 @@ public class User implements Serializable{
 	private UserRole role;
 	
 	private String image;
-	private Restaurant managerOf;
+	
+	@OneToMany(mappedBy="manager", fetch = FetchType.EAGER)
+	private List<Restaurant> managerOf;
 	
 	private boolean isActivated = false;
 	
@@ -114,14 +117,6 @@ public class User implements Serializable{
 		this.friends = friends;
 	}
 
-	public Restaurant getManagerOf() {
-		return managerOf;
-	}
-
-	public void setManagerOf(Restaurant managerOf) {
-		this.managerOf = managerOf;
-	}
-
 	public boolean isActivated() {
 		return isActivated;
 	}
@@ -129,6 +124,16 @@ public class User implements Serializable{
 	public void setActivated(boolean isActivated) {
 		this.isActivated = isActivated;
 	}
+
+	public List<Restaurant> getManagerOf() {
+		return managerOf;
+	}
+
+	public void setManagerOf(List<Restaurant> managerOf) {
+		this.managerOf = managerOf;
+	}
+	
+	
 	
 	
 }

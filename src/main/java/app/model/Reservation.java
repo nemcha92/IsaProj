@@ -79,7 +79,6 @@ public class Reservation {
 			retVal += "("+inv.getUser().getName()+" "+inv.getUser().getSurname() +" : "+inv.isCofirmed()+")\n";
 			
 		}
-		
 		return retVal;
 	}
 	

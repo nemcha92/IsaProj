@@ -58,7 +58,6 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 	//DELETE RESTAURANT
 	$scope.deleteRestaurant = function(restaurant){
 		var confirm = $scope.showConfirm('Are you sure you want to delete '+restaurant.name+ '?', 'NOTE: This cannot be undone', '', 'Yes', 'No');
-		$log.info(confirm);
 
 		$mdDialog.show(confirm).then(function() {
 				restaurantsService.delete(restaurant).success(function(data){
@@ -115,9 +114,8 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 	$scope.showRestaurant = function(event, res){
 		if(res == undefined){
 			$scope.selectedRestaurant = null;
-			$log.info('new restaurant')
+			$log.info('new restaurant');
 		} else {
-			$log.info(res);
 			$scope.selectedRestaurant = res;
 			$scope.showRestaurantForReal(event, res);
 		}
@@ -125,20 +123,37 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 
 	$scope.showRestaurantForReal = function(event){
 
-		$mdDialog.show({
+		var showRestDialog = $mdDialog.show({
 			controller : 'restaurantController',
 			controllerAs : 'restaurantController',
 			templateUrl : 'app/partials/restaurantDialog.html',
 			parent : angular.element(document.body),
 			targetEvent : event,
 			locals : {
-				res : $scope.selectedRestaurant
+				res : $scope.selectedRestaurant,
 			}
 		}).then(function(answer){
 			$log.info(answer);
 		})
 
 	};
+
+	$scope.reservation = function(event, restaurant){
+		$log.info('Reservation for '+ restaurant.name);
+		
+		$mdDialog.show({
+			controller : 'restaurantController',
+			controllerAs : 'restaurantController',
+			templateUrl : 'app/partials/reservationDialog.html',
+			parent : angular.element(document.body),
+			targetEvent : event,
+			locals : {
+				res : restaurant
+			}
+		}).then(function(answer){
+			$log.info(answer);
+		})
+	}
 
 	//TODO implement
 	$scope.showFriend = function(frn){
