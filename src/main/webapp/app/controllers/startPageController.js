@@ -148,7 +148,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 				res : $scope.selectedRestaurant,
 			}
 		}).then(function(answer){
-			$log.info(answer);
+			
 		})
 
 	};
@@ -157,16 +157,18 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		$log.info('Reservation for '+ restaurant.name);
 		
 		$mdDialog.show({
-			controller : 'restaurantController',
-			controllerAs : 'restaurantController',
+			controller : 'reservationController',
+			controllerAs : 'reservationController',
 			templateUrl : 'app/partials/reservationDialog.html',
 			parent : angular.element(document.body),
 			targetEvent : event,
 			locals : {
-				res : restaurant
+				res : restaurant,
+				loggedUser : $scope.loggedUser,
+				friends : $scope.friends
 			}
 		}).then(function(answer){
-			$log.info(answer);
+			
 		})
 	}
 

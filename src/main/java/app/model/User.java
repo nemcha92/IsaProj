@@ -3,11 +3,11 @@ package app.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -24,7 +25,9 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUser;
 	
+	@NotNull
 	private String name;
+	@NotNull
 	private String surname;
 	
 	@Column(unique = true)
@@ -32,6 +35,8 @@ public class User implements Serializable{
 	
 	private String password;
 	private String address;
+	
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
 	private String image;
@@ -44,6 +49,9 @@ public class User implements Serializable{
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="friends", referencedColumnName="idUser")
 	private List<User> friends = new ArrayList<User>();
+	
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+	private List<Invitation> invitations;
 	
 	public int getIdUser() {
 		return idUser;
@@ -131,6 +139,14 @@ public class User implements Serializable{
 
 	public void setManagerOf(List<Restaurant> managerOf) {
 		this.managerOf = managerOf;
+	}
+
+	public List<Invitation> getInvitations() {
+		return invitations;
+	}
+
+	public void setInvitations(List<Invitation> invitations) {
+		this.invitations = invitations;
 	}
 	
 	

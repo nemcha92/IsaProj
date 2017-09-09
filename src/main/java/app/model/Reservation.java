@@ -1,16 +1,15 @@
 package app.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Reservation {
@@ -21,16 +20,21 @@ public class Reservation {
 	
 	private String date;
 	private String time;
-	private int duration;
+	private double duration;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@NotNull
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Restaurant restaurant;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@NotNull
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User creator;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Invitation> invitations;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Table> tables;
 	
 	public String getTime() {
 		return time;
@@ -44,7 +48,7 @@ public class Reservation {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 	public void setDuration(int duration) {
@@ -76,10 +80,26 @@ public class Reservation {
 		
 		for(Invitation inv : invitations){
 			
-			retVal += "("+inv.getUser().getName()+" "+inv.getUser().getSurname() +" : "+inv.isCofirmed()+")\n";
+			retVal += "("+inv.getUser().getName()+" "+inv.getUser().getSurname() +")\n";
 			
 		}
 		return retVal;
+	}
+	
+	public int getIdReservation() {
+		return idReservation;
+	}
+	public void setIdReservation(int idReservation) {
+		this.idReservation = idReservation;
+	}
+	public List<Table> getTables() {
+		return tables;
+	}
+	public void setTables(List<Table> tables) {
+		this.tables = tables;
+	}
+	public void setDuration(double duration) {
+		this.duration = duration;
 	}
 	
 	

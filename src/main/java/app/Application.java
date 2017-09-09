@@ -262,27 +262,6 @@ public class Application extends SpringBootServletInitializer implements Command
 	
 	private void addReservations(){
 		
-		Reservation reserv = new Reservation();
-		reserv.setCreator(userRepo.findByUsername("n@mail.com"));
-		reserv.setDate("12.09.17");
-		reserv.setDuration(5);
-		
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		
-		Invitation inv1 = new Invitation(userRepo.findByUsername("pera@hotmail.com"), false);
-		Invitation inv2 = new Invitation(userRepo.findByUsername("mare@hotmail.com"), true);
-		
-		invRepo.save(inv1);
-		invRepo.save(inv2);
-		
-		invitations.add(inv1);
-		invitations.add(inv2);
-		reserv.setInvitations(invitations);
-		
-		reserv.setRestaurant(restaurantRepo.findOne(1));
-		reserv.setTime("18:30");
-		reservationRepo.save(reserv);
-		System.out.println(reserv);
 	}
 	
 	private void printTest(){

@@ -3,51 +3,37 @@ package app.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Invitation implements Serializable {
+	
+	public enum Status { CONFIRMED, REJECTED, PENDING }
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idInvitation;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
-	private boolean isCofirmed;
+	@Enumerated(EnumType.STRING)
+	private Status status = Status.PENDING;
+	private int rating;
 	
 	
-	public Invitation(User user, boolean isCofirmed) {
-		super();
-		this.user = user;
-		this.isCofirmed = isCofirmed;
-	}
-
-
 	public User getUser() {
 		return user;
 	}
 
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
-	public boolean isCofirmed() {
-		return isCofirmed;
-	}
-
-
-	public void setCofirmed(boolean isCofirmed) {
-		this.isCofirmed = isCofirmed;
-	}
-	
-	
 
 }

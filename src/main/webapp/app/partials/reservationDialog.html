@@ -1,0 +1,51 @@
+<!-- NEW -->
+
+  <md-dialog aria-label="Reservation" ng-init="init()">
+      
+      <form ng-cloak>
+      <div class = "form-group">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>Reservation for {{res.name}}</h2>
+            <span flex></span>
+          </div>
+          </md-toolbar>
+      
+          <md-content layout-padding layout="column" layout-sm="column" layout-align="center start">
+           
+           
+              <div class="md-dialog-content" ng-show="isNext">
+                  <!--<time-date-picker ng-model="reservation.date"></time-date-picker>  -->
+                  <span flex></span>
+                  <div flex>
+                  <input type="datetime-local" ng-model = "reservation.time" min = "{{date | date:'yyyy-MM-ddTHH:mm'}}">            
+                  </div>
+                  <md-input-container>
+                      <label>Duration (in hours)</label>
+                      <input name="duration" ng-model="reservation.duration" type="number" step = "0.5" min = "0.5"></input>
+                  </md-input-container>
+              </div>
+
+              <div class="md-dialog-content" ng-show="isFinish">
+                  <h3>Tables:</h3>
+              </div>
+        
+        </md-content>
+      
+        <md-dialog-actions layout="row">
+            <md-button  class="md-accent md-raised" ng-click="closeDialog()" md-autofocus>
+                Close
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="next()" ng-show="isNext" class ="md-primary md-raised">
+                Next
+            </md-button>
+            <md-button ng-click="finish()" ng-show="isFinish" class ="md-primary md-raised">
+                Finish
+            </md-button>
+        </md-dialog-actions>
+      
+      </div>
+      </form>
+      
+      </md-dialog>

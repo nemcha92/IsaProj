@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -29,6 +28,9 @@ public class Restaurant implements Serializable{
 	private String phone;
 	private float rating;
 	
+	private int numberOfRows;
+	private int numberOfColumns;
+	
 	private HashMap<String, Float> ratings = new HashMap<String, Float>();
 	
 	@ManyToOne
@@ -38,6 +40,9 @@ public class Restaurant implements Serializable{
 	
 	@OneToMany(mappedBy="restaurant", fetch = FetchType.EAGER)
 	private List<Menu> menus;
+	
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Table> tables;
 
 	public int getIdRestaurant() {
 		return idRestaurant;
@@ -101,6 +106,30 @@ public class Restaurant implements Serializable{
 
 	public void setManager(User manager) {
 		this.manager = manager;
+	}
+
+	public int getNumberOfRows() {
+		return numberOfRows;
+	}
+
+	public void setNumberOfRows(int numberOfRows) {
+		this.numberOfRows = numberOfRows;
+	}
+
+	public int getNumberOfColumns() {
+		return numberOfColumns;
+	}
+
+	public void setNumberOfColumns(int numberOfColumns) {
+		this.numberOfColumns = numberOfColumns;
+	}
+
+	public List<Table> getTables() {
+		return tables;
+	}
+
+	public void setTables(List<Table> tables) {
+		this.tables = tables;
 	}
 
 	

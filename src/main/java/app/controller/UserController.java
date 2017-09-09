@@ -106,8 +106,12 @@ public class UserController {
 		}
 
 		if(ok){
+			User fUser = userRepo.findByUsername(userToAdd.getUsername());
+			fUser.getFriends().add(lUser);
+			userRepo.save(fUser);
 			userToAdd.setPassword("");
 			lUser.getFriends().add(userToAdd);
+			
 		}
 			
 		userRepo.save(lUser);
