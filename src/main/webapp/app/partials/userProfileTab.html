@@ -8,10 +8,21 @@
 <md-content>
 
 	<div layout="row">
-		<div flex="25" flex offset="5">
-			<h3>{{ loggedUser.name }} {{ loggedUser.surname }}</h3>
-		</div>
+		<md-input-container md-no-float = "true">
+      <label>Name:</label><input required type = "text" ng-model = "loggedUser.name" ng-readonly="false"/>
+   </md-input-container>
+   <md-input-container md-no-float = "true">
+      <label>Surname:</label><input required type = "text" ng-model = "loggedUser.surname" ng-readonly="false"/>
+   </md-input-container>
+ <md-input-container md-no-float = "true">
+    <label>Address:</label><input required type = "text" ng-model = "loggedUser.address" ng-readonly="false"/>
     </div> 
+
+    <div>
+    <md-button  class="md-accent md-raised" ng-click="updateProfile()" md-autofocus>
+      Update profile
+     </md-button>
+    </div>
     <div layout="row">
 		<div flex="25" flex offset="5">
 			<h3>Friends:</h3>

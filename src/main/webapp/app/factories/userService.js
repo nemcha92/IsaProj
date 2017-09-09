@@ -1,12 +1,13 @@
 app.service('userService', function($http){
 	var url = '/resources/users';
 	var url2 ='/users/' 
+
 	return{
-		create: function(restaurant){
+		create: function(user){
 
 		},
 
-		update: function(restaurant){
+		update: function(user){
 			
 		},
 
@@ -39,6 +40,16 @@ app.service('userService', function($http){
 
 		removeFriend: function(frn){
 			return $http.post(url+ '/removeFriend', frn);
+		},
+
+		updateUserProfile: function(name, surname, address){
+			var indata = {name:name, surname:surname, address:address}
+
+			return  $http({
+				url: url + '/updateProfile',
+				method: 'POST',
+				params: indata
+				})
 		}
 
 	}

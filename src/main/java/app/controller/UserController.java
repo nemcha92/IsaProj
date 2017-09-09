@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import app.model.User;
 import app.repository.UserRepository;
-import app.security.UserDetailsServiceImpl;
 
 
 @RestController
@@ -130,4 +131,29 @@ public class UserController {
 		
 		return new ResponseEntity(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/updateProfile", method = RequestMethod.POST)
+	public ResponseEntity updateProfile(HttpServletRequest request){
+		
+		String name = request.getParameter("name");
+		String surname = request.getParameter("surname");
+		String address = request.getParameter("address");
+		
+		System.out.println(name +","+surname+","+address);
+		
+		
+		if(name == "" || name == null || surname == "" || surname == null || address == "" || address ==null){
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+		User lUser = userRepo.findByUsername(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		lUser.setName(name);
+		lUser.setSurname(surname);
+		lUser.setAddress(address);
+		
+		userRepo.save(lUser);
+		
+		return new ResponseEntity(lUser, HttpStatus.OK);
+	}
+	
 }

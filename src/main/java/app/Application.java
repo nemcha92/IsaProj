@@ -102,7 +102,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		u1.setManagerOf(null);
 		u1.setName("Pera");
 		u1.setPassword("pera");
-		u1.setRole(UserRole.ADMIN);
+		u1.setRole(UserRole.USER);
 		u1.setSurname("Peric");
 		u1.setUsername("pera@hotmail.com");
 		

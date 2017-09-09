@@ -110,6 +110,21 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		});
 	};
 
+	//UPDATE USER PROFILE
+	$scope.updateProfile = function() {
+
+		if($scope.loggedUser.name == '' || $scope.loggedUser.surname == '' || $scope.loggedUser.address == ''){
+			$scope.showAlertDialog('Bad input', 'You must enter all data', 'OK');
+		}else{
+			userService.updateUserProfile($scope.loggedUser.name, $scope.loggedUser.surname, $scope.loggedUser.address).success(function(data){
+				$scope.showSimpleToast('Profile updated');
+				$log.info(data);
+			});
+
+		}
+
+	}
+
 	//TODO implement
 	$scope.showRestaurant = function(event, res){
 		if(res == undefined){
