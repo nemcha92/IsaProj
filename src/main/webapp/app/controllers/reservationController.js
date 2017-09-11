@@ -1,4 +1,4 @@
-app.controller('reservationController', ['$http','$log', '$scope', '$location','$mdDialog', '$mdToast', 'res', 'loggedUser', 'friends', function($http, $log, $scope, $location, $mdDialog, $mdToast, res, loggedUser, friends) {
+app.controller('reservationController', ['$http','$log', '$scope', '$location','$mdDialog', '$mdToast', 'res', 'loggedUser', 'friends','restaurantsService', 'reservationService', function($http, $log, $scope, $location, $mdDialog, $mdToast, res, loggedUser, friends, restaurantsService, reservationService) {
     
 
         $scope.init = function(){
@@ -11,13 +11,23 @@ app.controller('reservationController', ['$http','$log', '$scope', '$location','
             $scope.reservation.time = "";
             $scope.isNext = true;
             $scope.isFinish = false;
-            $scope.nextDisabled = true;
-            $scope.finishDisabled = true;
-    
+
+            restaurantsService.getTables(res).success(function(data){
+                $scope.tables = data;
+            });
+
+            angular.forEach($scope.tables, function(table) {
+                table.reserved = false;   
+            });
+
+            angular.forEach($scope.friends, function(frn) {
+                frn.called = false;   
+            });
 
             $log.info($scope.res);
             $log.info($scope.loggedUser);
             $log.info($scope.friends);
+            $log.info($scope.tables);
         }
     
         $scope.closeDialog = function(){
@@ -31,9 +41,29 @@ app.controller('reservationController', ['$http','$log', '$scope', '$location','
             }else{
                 $scope.isNext = false;
                 $scope.isFinish = true;
+                $scope.rows = $scope.getNumberList(res.numberOfRows);
+                $scope.columns = $scope.getNumberList(res.numberOfColumns);
             }
             $log.info(selectedDate);
             $log.info($scope.date);
+        }
+
+        $scope.finish = function(){
+            
+
+        }
+
+        $scope.getNumberList = function(num){
+            $log.info(num);
+
+            var i = 1;
+            retVal = [];
+            for(i ; i<=num; ++i){
+                retVal.push(i);
+            }
+
+            $log.info(retVal);
+            return retVal;
         }
 
         $scope.toastPosition = {

@@ -2,7 +2,6 @@ package app;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.h2.server.web.WebServlet;
@@ -18,11 +17,10 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
-import app.model.Invitation;
 import app.model.Meal;
 import app.model.Menu;
-import app.model.Reservation;
 import app.model.Restaurant;
+import app.model.Table;
 import app.model.User;
 import app.model.UserRole;
 import app.repository.InvitationRepository;
@@ -30,6 +28,7 @@ import app.repository.MealRepository;
 import app.repository.MenuRepository;
 import app.repository.ReservationRepository;
 import app.repository.RestaurantRepository;
+import app.repository.TableRepository;
 import app.repository.UserRepository;
 
 @SpringBootApplication
@@ -52,6 +51,9 @@ public class Application extends SpringBootServletInitializer implements Command
 	
 	@Autowired
 	InvitationRepository invRepo;
+	
+	@Autowired 
+	TableRepository tableRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -79,10 +81,11 @@ public class Application extends SpringBootServletInitializer implements Command
 		addMealsAndMenus();
 		addMealsToMenus();
 		addMenusToRestaurants();
-		addManagersToRestaurants();
+		addTables();
+		//addManagersToRestaurants();
 		//addReservations();
 		
-		printTest();
+		//printTest();
 	}
 	
 	private void addUsers(){
@@ -92,7 +95,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		u.setManagerOf(null);
 		u.setName("Nemanja");
 		u.setPassword("n");
-		u.setRole(UserRole.ADMIN);
+		u.setRole(UserRole.USER);
 		u.setSurname("Milutinovic");
 		u.setUsername("n@mail.com");
 		
@@ -126,13 +129,55 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 	}
 	
+	private void addTables(){
+		
+		Restaurant res = restaurantRepo.findByName("Restoran1");
+		
+		Table tb1 = new Table(false, 5, res);
+		Table tb2 = new Table(true, 2, res);
+		Table tb3 = new Table(true, 3, res);
+		Table tb4 = new Table(false, 4, res);
+		Table tb5 = new Table(false, 2, res);
+		Table tb6 = new Table(true, 4, res);
+		Table tb7 = new Table(true, 4, res);
+		Table tb8 = new Table(true, 2, res);
+		Table tb9 = new Table(false, 4, res);
+		
+		tableRepo.save(tb1);
+		tableRepo.save(tb2);
+		tableRepo.save(tb3);
+		tableRepo.save(tb4);
+		tableRepo.save(tb5);
+		tableRepo.save(tb6);
+		tableRepo.save(tb7);
+		tableRepo.save(tb8);
+		tableRepo.save(tb9);
+		
+		List<Table> tables = new ArrayList<Table>();
+		tables.add(tb1);
+		tables.add(tb2);
+		tables.add(tb3);
+		tables.add(tb4);
+		tables.add(tb5);
+		tables.add(tb6);
+		tables.add(tb7);
+		tables.add(tb8);
+		tables.add(tb9);
+		
+		res.setTables(tables);
+		restaurantRepo.save(res);
+	}
+	
 	private void addRestaurants(){
 		
 		Restaurant res = new Restaurant();
 		res.setAddress("Adresa 1");
 		res.setName("Restoran1");
 		res.setPhone("021/777-888");
+		res.setDistance(1.5);
 		res.setRating(5);
+		res.setNumberOfColumns(3);
+		res.setNumberOfRows(3);
 		res.setMenus(new ArrayList<Menu>());
 		
 		restaurantRepo.save(res);
@@ -141,6 +186,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		res1.setAddress("Adresa 2");
 		res1.setName("Restoran2");
 		res1.setPhone("019/444-555");
+		res1.setDistance(2);
 		res1.setRating(4);
 		res1.setMenus(new ArrayList<Menu>());
 		res1.setManager(null);
@@ -151,6 +197,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		res2.setAddress("Adresa 3");
 		res2.setName("Restoran3");
 		res2.setPhone("019/111-5515");
+		res2.setDistance(3.2);
 		res2.setRating(3);
 		res2.setMenus(new ArrayList<Menu>());
 		res2.setManager(null);

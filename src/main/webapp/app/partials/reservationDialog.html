@@ -1,5 +1,19 @@
 <!-- NEW -->
 
+<style>
+    table {
+    border-collapse: collapse;
+    border:none;
+    }
+
+    /* remove padding */
+    td, th {
+        padding: 0;
+        border:none;
+        outline:none;
+    }
+</style>
+
   <md-dialog aria-label="Reservation" ng-init="init()">
       
       <form ng-cloak>
@@ -27,9 +41,44 @@
               </div>
 
               <div class="md-dialog-content" ng-show="isFinish">
-                  <h3>Tables:</h3>
-              </div>
-        
+                 <p>Tables</p>
+                <table>
+                        <tr ng-repeat="row in rows">
+                                <td ng-repeat="col in columns">
+                                            <md-card flex = "75 75">
+                                                    <md-card-title>
+                                                            <md-card-title-text>
+                                                              <span class="md-headline">Sto {{(row-1) * res.numberOfColumns + col}}</span>
+                                                            </md-card-title-text>
+                                                          </md-card-title>
+                                                    <md-card-content>
+                                                            <md-input-container md-no-float = "true">
+                                                                    <label>Number of seats:</label><input required type = "text" ng-model = "tables[(row-1) * res.numberOfColumns + col - 1].numberOfChairs" ng-readonly="true"/>
+                                                            </md-input-container>
+                                                            <md-checkbox ng-disabled="true" ng-model="tables[(row-1) * res.numberOfColumns + col - 1].available" >Available</md-checkbox>
+                                                            <md-checkbox ng-disabled="!tables[(row-1) * res.numberOfColumns + col - 1].available" ng-model="tables[(row-1) * res.numberOfColumns + col - 1].reserved" >Reserve</md-checkbox>
+                                                            </md-card-content>
+                                            </md-card>
+                                </td>
+                        </tr>  
+                </table>
+
+                <div>
+                    <p>Call friends:</p>
+                    <md-card flex = "75 75">
+                        <div ng-repeat="frn in friends">
+                            <md-card-title>
+                                    <md-card-title-text>
+                                      <span class="md-headline"></span>
+                                    </md-card-title-text>
+                                  </md-card-title>
+                                    <md-card-content>
+                                        <md-checkbox ng-disabled="false" ng-model="frn.called" >{{frn.name}} {{frn.surname}}</md-checkbox>
+                                    </md-card-content>
+                            </md-card>
+                        </div>
+                </div>
+            </div>
         </md-content>
       
         <md-dialog-actions layout="row">
@@ -41,7 +90,7 @@
                 Next
             </md-button>
             <md-button ng-click="finish()" ng-show="isFinish" class ="md-primary md-raised">
-                Finish
+                Make reservation
             </md-button>
         </md-dialog-actions>
       

@@ -19,7 +19,11 @@ app.service('restaurantsService', function($http){
 		},
 
 		getById: function(id){
-			return $http.get(url2+id)
+			return $http.get(url2+id);
+		},
+		
+		getTables: function(restaurant){
+			return $http.get(url+restaurant.name+'/tables');
 		}
 
 	}

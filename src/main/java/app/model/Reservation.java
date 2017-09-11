@@ -18,8 +18,7 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idReservation;
 	
-	private String date;
-	private String time;
+	private String dateTime;
 	private double duration;
 	
 	@NotNull
@@ -36,17 +35,11 @@ public class Reservation {
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Table> tables;
 	
-	public String getTime() {
-		return time;
+	public String getDateTime() {
+		return dateTime;
 	}
-	public void setTime(String time) {
-		this.time = time;
-	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
 	}
 	public double getDuration() {
 		return duration;
@@ -76,7 +69,7 @@ public class Reservation {
 	
 	@Override
 	public String toString() {
-		String retVal = "\n\n"+date+", "+time+","+duration+", "+restaurant.getName()+", "+creator.getName()+"\n\nInvited:\n";
+		String retVal = "\n\n"+dateTime+","+duration+", "+restaurant.getName()+", "+creator.getName()+"\n\nInvited:\n";
 		
 		for(Invitation inv : invitations){
 			

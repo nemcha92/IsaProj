@@ -23,7 +23,7 @@ public class Table {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idTable;
 	
-	private boolean isReserved;
+	private boolean isAvailable;
 	private int numberOfChairs;
 	
 	@NotNull
@@ -35,6 +35,17 @@ public class Table {
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Reservation> reservations;
+	
+	public Table(){
+		
+	}
+	
+	public Table(boolean isAvailable, int numberOfChairs, Restaurant restaurant) {
+		super();
+		this.isAvailable = isAvailable;
+		this.numberOfChairs = numberOfChairs;
+		this.restaurant = restaurant;
+	}
 
 	public int getIdTable() {
 		return idTable;
@@ -44,12 +55,12 @@ public class Table {
 		this.idTable = idTable;
 	}
 
-	public boolean isReserved() {
-		return isReserved;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	public int getNumberOfChairs() {

@@ -46,16 +46,22 @@
            <md-list>
              <md-list-item class="md-3-line">
                <div class="md-list-item-text" layout="row">
-                 <div class = "abc"><h2>Name</h2></div>
-                 <div class = "abc"><h2>Address</h2></div>
-                 <div class = "abc"><h2>Rating</h2></div>
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <div class="label">Sort by</div>
+                    <md-button aria-label="md-button" class="md-accent md-raised" ng-click="sortBy('name')">Name</md-button>
+                    <md-button aria-label="md-button" class="md-accent md-raised" ng-click="sortBy('address')">Address</md-button>
+                    <md-button aria-label="md-button" class="md-accent md-raised" ng-click="sortBy('distance')">Distance</md-button>
+                    </section>
                </div>
              </md-list-item>
-            <md-list-item layout="row" class="md-2-line" ng-repeat="res in restaurants | filter:filterForRestaurants">
+            <md-list-item layout="row" class="md-2-line" ng-repeat="res in restaurants | filter:filterForRestaurants | orderBy:propertyName:reverse">
               <md-button ng-click="showRestaurant($event, res)">
               <div class="md-list-item-text" layout="row">
                 <div class="abc" align="center"><p>{{res.name}}</p></div>
                 <div class="abc"><p>{{res.address}}</p></div>
+                <div class="abc"><p>{{res.distance}}</p></div>
+                <div></div> 
+                <flex span></flex>
                 <div layout="row">
                     <li ng-repeat="star in [1,2,3,4,5]">
                                     <div ng-switch="res.rating >= star">

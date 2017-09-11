@@ -26,6 +26,7 @@ public class Restaurant implements Serializable{
 	private String name;
 	private String address;
 	private String phone;
+	private double distance;
 	private float rating;
 	
 	private int numberOfRows;
@@ -130,6 +131,14 @@ public class Restaurant implements Serializable{
 
 	public void setTables(List<Table> tables) {
 		this.tables = tables;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 
 	

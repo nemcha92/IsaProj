@@ -4,6 +4,10 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 	$scope.loggedUser = [];
 	$scope.nonFriends = [];
 	$scope.friends = [];
+	$scope.tables = [];
+
+	$scope.propertyName = 'name';
+	$scope.reverse = true;
 
 
 	$scope.init = function(){
@@ -20,6 +24,12 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		getNonFriends();
 
 	};
+
+	//SORT
+	$scope.sortBy = function(propertyName) {
+		$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+		$scope.propertyName = propertyName;
+	  };
 
 
 	//GET RESTAURANTS
@@ -123,14 +133,14 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 
 		}
 
-	}
+	};
 
-	//TODO implement
 	$scope.showRestaurant = function(event, res){
 		if(res == undefined){
 			$scope.selectedRestaurant = null;
 			$log.info('new restaurant');
 		} else {
+			$log.info(res);
 			$scope.selectedRestaurant = res;
 			$scope.showRestaurantForReal(event, res);
 		}
@@ -155,7 +165,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 
 	$scope.reservation = function(event, restaurant){
 		$log.info('Reservation for '+ restaurant.name);
-		
+
 		$mdDialog.show({
 			controller : 'reservationController',
 			controllerAs : 'reservationController',

@@ -1,8 +1,5 @@
 package app.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.http.HttpStatus;
@@ -13,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.model.Restaurant;
-import app.model.User;
+import app.model.Table;
 import app.repository.RestaurantRepository;
 
 @RestController
@@ -28,6 +25,13 @@ public class RestaurantsController {
 	public ResponseEntity get(){
 		
 		return new ResponseEntity(restRepo.findAll(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/{name}/tables", method=RequestMethod.GET)
+	public ResponseEntity getTables(@PathVariable("name") String name){
+		
+		Restaurant res = restRepo.findByName(name);
+		return new ResponseEntity(res.getTables(), HttpStatus.OK);
 	}
 	
 	/*@RequestMapping(value="/{name}/managers", method = RequestMethod.GET)
