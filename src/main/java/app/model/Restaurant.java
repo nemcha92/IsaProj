@@ -39,7 +39,7 @@ public class Restaurant implements Serializable{
 	@JoinColumn(name = "idUser")
 	private User manager;
 	
-	@OneToMany(mappedBy="restaurant", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Menu> menus;
 	
 	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

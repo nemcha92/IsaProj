@@ -29,9 +29,7 @@ public class Menu implements Serializable {
 	@OneToMany(mappedBy="menu", fetch = FetchType.EAGER)
 	private List<Meal> meals = new ArrayList<Meal>();
 	
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "idRestaurant")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Restaurant restaurant;
 	
 	public int getIdMenu() {

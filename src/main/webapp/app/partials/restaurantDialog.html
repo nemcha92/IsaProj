@@ -10,7 +10,9 @@
 		</div>
 	  </md-toolbar>
 
-    <md-content layout-padding layout="column" layout-sm="column" layout-align="center start">
+    <md-content >
+
+			<div layout-padding layout="column" layout-sm="column" layout-align="center start">
     	<md-input-container md-no-float = "true">
     	   <label>Name:</label><input required type = "text" ng-model = "res.name" ng-readonly="true"/>
     	</md-input-container>
@@ -19,7 +21,31 @@
     	</md-input-container>
 		<md-input-container md-no-float = "true">
 		   <label>Phone:</label><input required type = "text" ng-model = "res.phone" ng-readonly="true"/>
-	
+		</div>
+
+			<div layout="row" layout-sm="row" layout-align="center start">
+
+					<div	ng-repeat="menu in res.menus" layout="row" layout-sm="row" layout-align="center start">
+							<md-card flex = "75 75">
+									<md-card-title>
+											<md-card-title-text>
+												<span class="md-headline">{{menu.name}}</span>
+											</md-card-title-text>
+										</md-card-title>
+										<md-card-content >
+											<div ng-repeat="meal in menu.meals" 	ng-repeat="menu in res.menus" layout="row" layout-sm="row" layout-align="center start">
+												<md-input-container md-no-float = "true">
+														<label>{{meal.name}}--------{{meal.price}}din</label><input aria-label="meal" required type = "text" ng-model = "meal.description" ng-readonly="true"/>
+												</md-input-container>
+											</div>
+										</md-card-content>
+							</md-card>			
+					</div>
+
+
+
+			</div>
+
 	</md-content>
 
 	<md-dialog-actions layout="row">

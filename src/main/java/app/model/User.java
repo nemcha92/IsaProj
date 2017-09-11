@@ -53,6 +53,9 @@ public class User implements Serializable{
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Invitation> invitations;
 	
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+	private List<Reservation> reservations;
+	
 	public int getIdUser() {
 		return idUser;
 	}

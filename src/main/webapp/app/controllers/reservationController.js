@@ -43,13 +43,44 @@ app.controller('reservationController', ['$http','$log', '$scope', '$location','
                 $scope.isFinish = true;
                 $scope.rows = $scope.getNumberList(res.numberOfRows);
                 $scope.columns = $scope.getNumberList(res.numberOfColumns);
+                $scope.reservation.time = selectedDate;
             }
             $log.info(selectedDate);
             $log.info($scope.date);
         }
 
+        //MAKE RESERVATION
         $scope.finish = function(){
             
+            var reservedTables = [];
+            var i =0;
+            $log.info($scope.tables);
+
+            for(i; i<$scope.tables.length; ++i){
+                if($scope.tables[i].reserved){
+                    delete $scope.tables[i].reserved;
+                    reservedTables.push($scope.tables[i]);
+                }
+            }
+
+            var calledFriends = [];
+            var j=0;
+            for(j; j<$scope.friends.length; ++j){
+                if($scope.friends[j].called){
+                    delete $scope.friends[j].called;
+                    calledFriends.push($scope.friends[j]);
+                }
+            }
+
+            $scope.reservation.user = $scope.loggedUser;
+            $scope.reservation.tables = reservedTables;
+            $scope.reservation.restaurant = $scope.res;
+            $log.info($scope.reservation);
+
+            reservationService.createReservation($scope.loggedUser.username, $scope.res.name, $scope.reservation, calledFriends).success(function(data){
+                $log.info('SUCCESS RESERVATION');
+                $log.info(data);
+            });
 
         }
 

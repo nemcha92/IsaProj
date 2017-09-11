@@ -14,6 +14,14 @@ app.service('restaurantsService', function($http){
 			return $http.get(url2);
 		},
 
+		menuList: function(menuUrl){
+			return $http.get(menuUrl);
+		},
+
+		mealList: function(mealUrl){
+			return $http.get(mealUrl);
+		},
+
 		delete: function(restaurant){
 			return $http.delete(restaurant._links.self.href);
 		},

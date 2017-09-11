@@ -85,7 +85,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		//addManagersToRestaurants();
 		//addReservations();
 		
-		//printTest();
+		printTest();
 	}
 	
 	private void addUsers(){
@@ -268,8 +268,6 @@ public class Application extends SpringBootServletInitializer implements Command
 		
 		menu2.setMeals(meals);
 		menuRepo.save(menu2);
-		
-		
 	}
 	
 	private void addMenusToRestaurants(){
@@ -281,10 +279,8 @@ public class Application extends SpringBootServletInitializer implements Command
 		menu1.setRestaurant(res);
 		menu2.setRestaurant(res);
 		
-		List<Menu> menus = new ArrayList<Menu>();
-		menus.add(menuRepo.findByName("Hrana1"));
-		menus.add(menuRepo.findByName("Pice1"));
-		res.setMenus(menus);
+		res.getMenus().add(menu1);
+		res.getMenus().add(menu2);
 		
 		menuRepo.save(menu1);
 		menuRepo.save(menu2);
@@ -330,7 +326,7 @@ public class Application extends SpringBootServletInitializer implements Command
 		}
 		
 		System.out.println("*Managers:*");
-		System.out.println(r.getManager().getName()+" "+r.getManager().getSurname());
+		//System.out.println(r.getManager().getName()+" "+r.getManager().getSurname());
 	}
 	
 	

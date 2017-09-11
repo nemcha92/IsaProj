@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Reservation {
 	
@@ -27,10 +29,12 @@ public class Reservation {
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
-	private User creator;
+	private User user;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToMany(mappedBy="reservation", fetch = FetchType.EAGER)
 	private List<Invitation> invitations;
+	
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Table> tables;
@@ -41,23 +45,11 @@ public class Reservation {
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-	public double getDuration() {
-		return duration;
-	}
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
-	}
-	public User getCreator() {
-		return creator;
-	}
-	public void setCreator(User creator) {
-		this.creator = creator;
 	}
 	
 	public List<Invitation> getInvitations() {
@@ -69,7 +61,7 @@ public class Reservation {
 	
 	@Override
 	public String toString() {
-		String retVal = "\n\n"+dateTime+","+duration+", "+restaurant.getName()+", "+creator.getName()+"\n\nInvited:\n";
+		String retVal = "\n\n"+dateTime+","+duration+", "+restaurant.getName()+", "+user.getName()+"\n\nInvited:\n";
 		
 		for(Invitation inv : invitations){
 			
@@ -91,10 +83,18 @@ public class Reservation {
 	public void setTables(List<Table> tables) {
 		this.tables = tables;
 	}
+	public double getDuration() {
+		return duration;
+	}
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
-	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 	
 }

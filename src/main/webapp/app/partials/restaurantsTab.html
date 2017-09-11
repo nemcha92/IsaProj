@@ -84,9 +84,9 @@
                 </div>
                 </md-button>
                 <div>
-                    <md-button aria-label="md-button" class="md-accent md-raised" ng-really-message="Are you sure?" ng-click="deleteRestaurant(res)">Delete
+                    <md-button ng-show="loggedUser.role != 'USER'" aria-label="md-button" class="md-accent md-raised" ng-really-message="Are you sure?" ng-click="deleteRestaurant(res)">Delete
                     </md-button>
-                    <md-button aria-label="md-button" class="md-accent md-raised" ng-click="reservation($event, res)">Reservation
+                    <md-button ng-show="loggedUser.role == 'USER'" aria-label="md-button" class="md-accent md-raised" ng-click="reservation($event, res)">Reservation
                     </md-button>
                 </div>
             </md-list-item>

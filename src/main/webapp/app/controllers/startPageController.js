@@ -37,6 +37,21 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		restaurantsService.list().success(function(data){
 			if(data._embedded != undefined){
 				$scope.restaurants = data._embedded.restaurants;
+				angular.forEach($scope.restaurants, function(res){
+					restaurantsService.menuList(res._links.menus.href).success(function(data){
+						if(data._embedded != undefined) {
+							res.menus = data._embedded.menus;
+							angular.forEach(res.menus, function(menu){
+									restaurantsService.mealList(menu._links.meals.href).success(function(data){
+										$log.info(menu._links.meals.href);
+										$log.info(data._embedded.meals);
+										menu.meals = data._embedded.meals;
+									});
+							})
+						}
+
+					}); 
+				});
 			}
 		});
 	};
@@ -142,7 +157,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 		} else {
 			$log.info(res);
 			$scope.selectedRestaurant = res;
-			$scope.showRestaurantForReal(event, res);
+			$scope.showRestaurantForReal(event);
 		}
 	};
 
@@ -155,7 +170,7 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 			parent : angular.element(document.body),
 			targetEvent : event,
 			locals : {
-				res : $scope.selectedRestaurant,
+				res : $scope.selectedRestaurant
 			}
 		}).then(function(answer){
 			
