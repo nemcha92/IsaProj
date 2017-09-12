@@ -78,8 +78,10 @@ app.controller('reservationController', ['$http','$log', '$scope', '$location','
             $log.info($scope.reservation);
 
             reservationService.createReservation($scope.loggedUser.username, $scope.res.name, $scope.reservation, calledFriends).success(function(data){
-                $log.info('SUCCESS RESERVATION');
+                $scope.showSimpleToast("Reservation successful")
+                $log.info('reservation controller : SUCCESS RESERVATION');
                 $log.info(data);
+                $mdDialog.hide();
             });
 
         }

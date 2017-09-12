@@ -1,4 +1,4 @@
-app.controller('startPageController', ['$http','$log', '$scope', '$location','$mdDialog', '$mdToast', 'restaurantsService', 'userService', function($http, $log, $scope, $location, $mdDialog, $mdToast, restaurantsService, userService) {
+app.controller('startPageController', ['$http','$log', '$scope', '$location','$mdDialog', '$mdToast', 'restaurantsService', 'userService', 'reservationService', function($http, $log, $scope, $location, $mdDialog, $mdToast, restaurantsService, userService, reservationService) {
 
 	$scope.restaurants = [];
 	$scope.loggedUser = [];
@@ -18,12 +18,20 @@ app.controller('startPageController', ['$http','$log', '$scope', '$location','$m
 			$scope.loggedUser = data;
 			$scope.role = $scope.loggedUser.role;
 			$log.info($scope.role);
+
+			getReservationsForUser()
+			getFriends();
+			getNonFriends();
 		});
 
-		getFriends();
-		getNonFriends();
-
 	};
+
+	var getReservationsForUser = function(){
+		reservationService.getReservations($scope.loggedUser.username).success(function(data){
+			$log.info('RESERVATIONS FOR: '+$scope.loggedUser.username);
+			$log.info(data);
+		});
+	}
 
 	//SORT
 	$scope.sortBy = function(propertyName) {

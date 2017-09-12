@@ -95,9 +95,30 @@ public class ReservationController {
 		
 		reservationRepo.save(reservation);
 		
+		
+		/*Reservation test = reservationRepo.findByUserUsername(username);
+		System.out.println("-----------TEST----------------");
+		System.out.println(test.getUser().getName()+" "+test.getUser().getSurname());
+		System.out.println(test.getDateTime());
+		System.out.println(test.getDuration());
+		System.out.println(test.getRestaurant().getName());
+		System.out.println("=======invs======");
+		for(Invitation inv : test.getInvitations()){
+			System.out.println(inv.getUser().getName()+": "+inv.getStatus());
+		}
+		System.out.println("============================");
+		System.out.println("-+++++++tables+++++++");
+		for(Table t : test.getTables()){
+			System.out.println(t.getIdTable());
+		}
+		System.out.println("++++++++++++++++++++");
+		System.out.println("--------------------------------");*/
+		
+		
+		
+		
 		return new ResponseEntity(HttpStatus.OK);
 	}
-	
-	
+
 	
 }
